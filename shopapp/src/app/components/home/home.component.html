@@ -1,0 +1,86 @@
+<style>
+  .search-box {
+    display: flex;
+  }
+
+  .product-item {
+    background-color: gray;
+    border: 1px solid gray;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  .product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="container">
+  <app-header></app-header>
+  <div class="intro-section">
+    <h1>Đây là trang home</h1>
+    <p>Hiển thị sản phẩm</p>
+  </div>
+  <div class="search-box">
+    <input type="text" class="form-control search-input" placeholder="Tìm sản phẩm" [(ngModel)]="keyword">
+    <select class="form-contrl product-category" [(ngModel)]="selectedCategoryId">
+      <option [value]="0">Tất cả</option>
+      <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+    </select>
+    <button class="btn btn-primary ml-2" (click)="searchProducts()">TÌm kiếm</button>
+  </div>
+  <div class="search-box">
+    <input type="text" class="form-control search-input" placeholder="Tìm sản phẩm">
+    <select class="form-control" name="" id="">
+      <option selected disabled>Danh mục sản phẩm</option>
+      <option value=""></option>
+    </select>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-6" *ngFor="let product of products">
+      <div class="product-item">
+        <img [src]="product.url" class="product-image" alt="Product Image">
+        <h3 class="product-name">{{product.name}}</h3>
+        <p class="product-description"> {{product.description}} </p>
+        <p class="product-price">Giá: ${{product.price}} </p>
+        <!-- <div class="rating">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star-half-alt"></i>
+      </div> -->
+        <div class="product-actions">
+          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+          <button class="btn btn-section">Mua hàng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center">
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(0)">Đầu</a>
+      </li>
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage - 1)">Trước</a>
+      </li>
+      <ng-container *ngFor="let page of visiblePages">
+        <li class="page-item" [ngClass]="{'active': page === currentPage}">
+          <a class="page-link" href="#" (click)="onPageChange(page-1)">{{page}}</a>
+        </li>
+      </ng-container>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage + 1)">Sau</a>
+      </li>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(totalPages)">Cuối</a>
+      </li>
+    </ul>
+  </nav>
+</div>
